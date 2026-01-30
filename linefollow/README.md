@@ -1,44 +1,78 @@
-# Line Follower - Alternative Implementations
+# Line Follower - Experimental Implementations
 
-This directory allows for modular testing of different sensor configurations and algorithms. Each file represents a different approach or hardware setup.
+This directory contains modular, testable implementations of various line follower algorithms. Each file demonstrates a different approach, hardware configuration, or control strategy.
 
-## File Descriptions
+## 2-3 Sensor Configurations
 
-### 2/3 Sensor Configurations
-- **3ir.ino**
-  - **Sensors**: 3 (Pins 2, 3, 4)
-  - **Driver**: L298N (Discrete Pins)
-  - **Description**: Standard logic for a 3-sensor robot. Uses basic if-else logic for center/left/right detection. Defines specific PWM pins for speed control.
-  
-- **	emp3irpid.ino**
-  - **Sensors**: 3 (Pins A1, A2, A3)
-  - **Driver**: L298N
-  - **Description**: An attempt to implement PID control on a 3-sensor setup. Includes boilerplate comments for motor initialization.
+### 3ir.ino
+- **Sensors**: 3 (Pins 2, 3, 4)
+- **Driver**: L298N
+- **Algorithm**: Basic conditional logic
+- **Use**: Simple 3-sensor line following with discrete left/right/center detection
 
-- **3irfroback.cpp**
-  - **Sensors**: 5 defined (A1-A5), but likely uses subset logic or name is legacy.
-  - **Description**: C++ source file defining motor and sensor pins. Contains variables for turning speeds (	urnspeed = 180).
+### temp3irpid.ino
+- **Sensors**: 3 (Pins A1, A2, A3)
+- **Driver**: L298N
+- **Algorithm**: PID control (experimental)
+- **Use**: PID-based control attempt for 3-sensor configuration
 
-- **line-temp1.ino**
-  - **Sensors**: 2 (Pins 12, 4)
-  - **Description**: A temporary test file. Very basic setup with 2 sensors and motor pins. Likely used for connection testing.
+### 3irfroback.cpp
+- **Sensors**: 5 defined (A1-A5), uses subset logic
+- **Driver**: Not specified
+- **Algorithm**: Motor/sensor initialization utilities
+- **Use**: Reference file for pin definitions and speed constants
 
-- **linefollow1.ino**
-  - **Sensors**: 2 (Pins 12, 11)
-  - **Description**: Basic line follower logic for 2 sensors. Defines 	urnspeed and straightspeed.
+### line-temp1.ino
+- **Sensors**: 2 (Pins 12, 4)
+- **Algorithm**: Basic binary logic
+- **Use**: Minimal test setup for hardware connectivity
 
-### 4 Sensor Configurations
-- **4irLinefollower.ino**
-  - **Sensors**: 4 (Pins 1, 2, 3, 4)
-  - **Driver**: L298N
-  - **Description**: Logic handling 4 sensors (S1 to S4). Differentiates between high and low turn speeds for smoother turning.
+### linefollow1.ino
+- **Sensors**: 2 (Pins 12, 11)
+- **Algorithm**: Binary line detection
+- **Use**: Basic 2-sensor line following implementation
 
-### 5 Sensor Configurations
-- **5ir.cpp**
-  - **Sensors**: 5 (Pins A1-A5)
-  - **Description**: C++ implementation for a 5-sensor array. Defines defaultSpeed, sharpspeed, and 	urnspeed. Used as a source to copy into main.cpp.
+## 4 Sensor Configuration
 
-### PID Implementations
-- **pidLinefollower.ino**
-  - **Sensors**: 2 (Pins 12, 4)
-  - **Description**: Implementation of a PID controller (Kp, Ki, Kd constants defined). Calculates error and adjusts motor speed based on PID output to center the robot on the line.
+### 4irLinefollower.ino
+- **Sensors**: 4 (Pins 1, 2, 3, 4)
+- **Driver**: L298N
+- **Algorithm**: Conditional logic with speed differentiation
+- **Features**:
+  - Distinguishes between sharp and gentle turns
+  - Smoother turning with high/low speed profiles
+- **Use**: 4-sensor setups requiring better curve handling
+
+## 5 Sensor Configuration
+
+### 5ir.cpp
+- **Sensors**: 5 (Pins A1-A5)
+- **Algorithm**: Weighted position calculation
+- **Constants**: defaultSpeed, sharpspeed, turnspeed
+- **Use**: Foundation for advanced 5-sensor implementations
+
+## PID-Based Implementations
+
+### pidLinefollower.ino
+- **Sensors**: 2 (Pins 12, 4)
+- **Algorithm**: PID controller (Kp, Ki, Kd tuned)
+- **Features**:
+  - Proportional, integral, and derivative terms
+  - Continuous error calculation
+  - Motor speed adjustment based on line position
+- **Use**: Smooth, adaptive line following with better curve handling
+
+## How to Use
+
+1. Review the file descriptions above
+2. Select an implementation matching your sensor count
+3. Copy the code into src/main.cpp
+4. Upload to your Arduino via PlatformIO
+5. Tune constants (speed, PID gains) based on track conditions
+
+## Notes
+
+- Files with .ino extension are Arduino sketches
+- Files with .cpp extension are C++ source files
+- PWM pins vary by configuration - check pin definitions before uploading
+- PID implementations require tuning for optimal performance
